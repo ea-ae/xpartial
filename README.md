@@ -22,11 +22,11 @@ f = xpartial(range, Skip, 6)  # 'Skip' skips a single positional arg
 f(2)  # -> 2, 3, 4, 5
 f(1, 2)  # -> 1, 3, 5
 
-foo = lambda a, b=0, c=1, d=2, e=3: (a, b, c, d, e)  # takes & returns 5 args
+foo = lambda a, b, c=0, d=0, e=0: (a, b, c, d, e)  # takes & returns 5 args
 
 g = xpartial(foo, 10, SkipRest, 40, 50)  # 'SkipRest' greedily skips args
 g(20, 30)  # -> 10, 20, 30, 40, 50
-g(20)  # -> 10, 20, 1, 40, 50
+g(20)  # -> 10, 20, 0, 40, 50
 ```
 
 ## Implementation Details
