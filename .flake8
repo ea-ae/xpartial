@@ -1,0 +1,6 @@
+[flake8]
+max-line-length = 120
+max-complexity = 20
+ignore =
+    F403  # 'from module import *' used; unable to detect undefined names
+    F405  # Name may be undefined, or defined from star imports: module
