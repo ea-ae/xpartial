@@ -1,7 +1,0 @@
-Undocumented Python objects
-===========================
-xpartial.xpartial
------------------
-Functions:
- * xpartialmethod
-
