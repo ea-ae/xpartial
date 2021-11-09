@@ -23,10 +23,15 @@ f(2)  # -> 2, 3, 4, 5
 f(1, 2)  # -> 1, 3, 5
 
 foo = lambda a, b, c=0, d=0, e=0: (a, b, c, d, e)  # takes & returns 5 args
-
 g = xpartial(foo, 10, SkipRest, 40, 50)  # 'SkipRest' greedily skips args
 g(20, 30)  # -> 10, 20, 30, 40, 50
 g(20)  # -> 10, 20, 0, 40, 50
+
+bar = lambda a=3, b=5, *args: (a, b, *args)
+h = xpartial(SkipRest, 15)  # SkipRest skips up to 'args', not 'b'
+h(1, 2, 3)  # -> 1, 2, 3, 15  (frozen args are in the very end)
+h()  # -> 3, 5, 15  (default values are applied)
+h(Skip, 42, 1337)  # -> 3, 42, 1337, 15 (Skips here use default values)
 ```
 
 ## Implementation Details
@@ -41,9 +46,11 @@ When used as argument for `xpartial`, this constant skips over a single position
 
 When used as an argument for a partial function created by `xpartial`, the argument is set to its default value (if there isn't one, an error is thrown).
 
-### SkipAll
+### SkipRest
 
-Same as `Skip` in both cases, but skips as many arguments as possible, freezing the **n** arguments that come after it in the functional as the last **n** arguments. Only a single `SkipAll` may be provided in a function call.
+When used as an argument for `xpartial`, skips as many arguments as possible, freezing the **n** arguments that come after it in the functional as the last **n** arguments. If the function contains an `*args`, all the remaining positional arguments are skipped.
+
+Unlike `Skip`, `SkipRest` cannot be used in partial function calls. Only a single `SkipRest` may be provided to an `xpartial`.
 
 ## License
 
