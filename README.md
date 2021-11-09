@@ -31,17 +31,17 @@ g(20)  # -> 10, 20, 0, 40, 50
 
 ## Implementation Details
 
-### `xpartial(func: Callable, *args, **kwargs)`
+### xpartial(func, *args, **kwargs)
 
 This function allows you to selectively freeze any parameters with specified values, creating a partial function. Frozen arguments in partial functions can be overwritten through keyword arguments.
 
-### `Skip`
+### Skip
 
 When used as argument for `xpartial`, this constant skips over a single positional argument of the target function, requiring said argument to be later provided to the partial function.
 
 When used as an argument for a partial function created by `xpartial`, the argument is set to its default value (if there isn't one, an error is thrown).
 
-### `SkipAll`
+### SkipAll
 
 Same as `Skip` in both cases, but skips as many arguments as possible, freezing the **n** arguments that come after it in the functional as the last **n** arguments. Only a single `SkipAll` may be provided in a function call.
 
