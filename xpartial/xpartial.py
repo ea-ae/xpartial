@@ -6,7 +6,7 @@ __all__ = ['Skip', 'SkipRest', 'xpartial']
 from typing import TypeVar, Callable, Generator, NoReturn, Any
 
 
-class Constant:
+class _Constant:  # pragma: no cover
     """Do not allow instantiation of class. Allows us to create subclass docstrings."""
 
     def __new__(cls, *args: Any, **kwargs: Any) -> NoReturn:  # type: ignore
@@ -14,11 +14,11 @@ class Constant:
         raise TypeError('Skip may not be instantiated.')
 
 
-class Skip(Constant):
+class Skip(_Constant):
     """Skip a single positional argument."""
 
 
-class SkipRest(Constant):
+class SkipRest(_Constant):
     """Skip as many positional arguments as possible, allowing one to freeze arguments at the end of the function."""
 
 
@@ -27,6 +27,10 @@ R = TypeVar('R')
 
 def xpartial(func: Callable[..., R], /, *args: Any, **kwargs: Any) -> Callable[..., R]:
     """Return a new function with partially frozen arguments.
+
+    An eXtended partial utility function that allows you to selectively freeze any parameters with specified values,
+    creating a partial function. Frozen arguments in partial functions can be overwritten through keyword arguments.
+    Function `xpartialmethod` behaves just like `xpartial`, but is instead used for method definitions.
 
     :param func: Function to apply arguments to.
     :param args: Positional arguments to be frozen.
@@ -38,10 +42,13 @@ def xpartial(func: Callable[..., R], /, *args: Any, **kwargs: Any) -> Callable[.
 
         :param iargs: Positional arguments.
         :param ikwargs: Keyword arguments.
-        :return: Result of function with frozen arguments.
+        :return: Returned result of partial function.
         """
         def process_args() -> Generator[Any, None, None]:
-            """Yield processed function arguments."""
+            """Yield processed function arguments.
+
+            :return: Yield processed argument.
+            """
             iarg_it = iter(iargs)
             remaining = len(args)
             for arg in args:
@@ -63,8 +70,12 @@ def xpartial(func: Callable[..., R], /, *args: Any, **kwargs: Any) -> Callable[.
         ikwargs |= kwargs
         return func(*process_args(), **ikwargs)
 
-    # print(id(partial_func))
     return partial_func
+
+
+def xpartialmethod():
+    """Implement this later."""
+    raise NotImplementedError()
 
 
 if __name__ == '__main__':

@@ -4,7 +4,7 @@ repos:
     hooks:
     -   id: check-added-large-files
     -   id: end-of-file-fixer
-        types: [python]
+        files: '.*\.py$'
     -   id: trailing-whitespace
 -   repo: https://github.com/pycqa/flake8
     rev: 4.0.1
