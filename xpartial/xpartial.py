@@ -1,4 +1,8 @@
-"""Extend functools.partial to allow for selective argument freezing."""
+"""Library that eXtends functools.partial to allow for selective argument freezing.
+
+Skip positional arguments one by one, assign from the end of the argument list, overwrite frozen arguments with kwargs,
+and make use of default values in middle of your function calls.
+"""
 
 
 __all__ = ['Skip', 'SkipRest', 'xpartial']
@@ -15,11 +19,25 @@ class _Constant:  # pragma: no cover
 
 
 class Skip(_Constant):
-    """Skip a single positional argument."""
+    """Skip a single positional argument.
+
+    When used as argument for `xpartial`, this constant skips over a single positional argument of the target function,
+    requiring said argument to be later provided to the partial function.
+    When used as an argument for a partial function created by `xpartial`, the argument is set to its default value
+    (if there isn't one, an error is thrown).
+    """
 
 
 class SkipRest(_Constant):
-    """Skip as many positional arguments as possible, allowing one to freeze arguments at the end of the function."""
+    """Skip as many positional arguments as possible, allowing one to freeze arguments at the end of the function.
+
+    When used as an argument for `xpartial`, skips as many arguments as possible, freezing the n arguments
+    that come after it in the functional as the last **n** arguments. If the function contains an `*args`,
+    all the remaining positional arguments are skipped.
+
+    Unlike `Skip`, `SkipRest` can't be used in partial function calls.
+    Only a single `SkipRest` may be provided to an `xpartial`.
+    """
 
 
 R = TypeVar('R')
