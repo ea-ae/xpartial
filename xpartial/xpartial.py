@@ -5,7 +5,7 @@ and make use of default values in middle of your function calls.
 """
 
 
-__all__ = ['Skip', 'SkipRest', 'xpartial']
+__all__ = ['xpartial', 'xpartialmethod', 'Skip', 'SkipRest']
 
 from typing import TypeVar, Callable, Generator, NoReturn, Any
 
@@ -31,12 +31,9 @@ class Skip(_Constant):
 class SkipRest(_Constant):
     """Skip as many positional arguments as possible, allowing one to freeze arguments at the end of the function.
 
-    When used as an argument for `xpartial`, skips as many arguments as possible, freezing the n arguments
-    that come after it in the functional as the last **n** arguments. If the function contains an `*args`,
-    all the remaining positional arguments are skipped.
-
-    Unlike `Skip`, `SkipRest` can't be used in partial function calls.
-    Only a single `SkipRest` may be provided to an `xpartial`.
+    When used as an argument for `xpartial`, skips as many arguments as possible, leaving the remaining frozen
+    arguments and Skips to the end of the argument list. Only the first `SkipRest` provided `xpartial` has an effect,
+    the rest are ignored entirely. Unlike `Skip`, `SkipRest` can't be used in partial function calls.
     """
 
 
@@ -67,23 +64,27 @@ def xpartial(func: Callable[..., R], /, *args: Any, **kwargs: Any) -> Callable[.
 
             :return: Yield processed argument.
             """
-            # iarg_it = iter(iargs)
-            iarg_i = 0
-            for i, arg in enumerate(args):
+            iargs_i, skips_left, skiprest_done = 0, args.count(Skip), False
+            for arg in args:
                 if arg in ikwargs:
                     yield ikwargs.pop(arg)  # allow overwriting of frozen args if they're present in the kwargs
                 elif arg is Skip:
                     try:
-                        # yield next(iarg_it)
-                        yield iargs[iarg_i]
-                        i += 1
+                        yield iargs[iargs_i]
+                        iargs_i += 1
+                        skips_left -= 1
                     except IndexError:
                         return  # if the remaining args are all Skips then we're fine, if not, TypeError will be raised
                 elif arg is SkipRest:
-                    pass
+                    if skiprest_done:
+                        continue
+                    skiprest_done = True
+                    for i in range(iargs_i, len(iargs) - skips_left):  # exhaust as many as possible
+                        yield iargs[i]
+                    iargs_i = len(iargs) - skips_left
                 else:
                     yield arg
-            for i in range(iarg_i, len(iargs)):  # yield the remaining positional arguments after Skips
+            for i in range(iargs_i, len(iargs)):  # exhaust all
                 yield iargs[i]
 
         ikwargs |= kwargs
@@ -103,6 +104,6 @@ def xpartialmethod() -> NoReturn:
 
 
 if __name__ == '__main__':
-    foo = lambda a, b=0, c=0, d=0, e=0: (a, b, c, d, e)  # noqa: E731
-    f = xpartial(foo, 1, Skip, Skip, Skip, SkipRest, Skip)
-    print(f(5))
+    foo = lambda a, b=0, c=0, d=0, e=0, *args: (a, b, c, d, e, (*args,))  # noqa: E731
+    f = xpartial(foo, 1, SkipRest, 4, Skip, 5)
+    print(f(20, 30, 40, 50, 60))

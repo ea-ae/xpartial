@@ -50,11 +50,9 @@ When used as an argument for a partial function created by <cite>xpartial</cite>
 <dt class="sig sig-object py" id="xpartial.SkipRest">
 <em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">xpartial.</span></span><span class="sig-name descname"><span class="pre">SkipRest</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Any</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#xpartial.SkipRest" title="Permalink to this definition">¶</a></dt>
 <dd><p>Skip as many positional arguments as possible, allowing one to freeze arguments at the end of the function.</p>
-<p>When used as an argument for <cite>xpartial</cite>, skips as many arguments as possible, freezing the n arguments
-that come after it in the functional as the last <strong>n</strong> arguments. If the function contains an <cite>*args</cite>,
-all the remaining positional arguments are skipped.</p>
-<p>Unlike <cite>Skip</cite>, <cite>SkipRest</cite> can’t be used in partial function calls.
-Only a single <cite>SkipRest</cite> may be provided to an <cite>xpartial</cite>.</p>
+<p>When used as an argument for <cite>xpartial</cite>, skips as many arguments as possible, leaving the remaining frozen
+arguments and Skips to the end of the argument list. Only the first <cite>SkipRest</cite> provided <cite>xpartial</cite> has an effect,
+the rest are ignored entirely. Unlike <cite>Skip</cite>, <cite>SkipRest</cite> can’t be used in partial function calls.</p>
 </dd></dl>
 
 <dl class="py function">
@@ -76,6 +74,15 @@ Function <cite>xpartialmethod</cite> behaves just like <cite>xpartial</cite>, bu
 <dd class="field-even"><p>Function with frozen arguments.</p>
 </dd>
 </dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="xpartial.xpartialmethod">
+<span class="sig-prename descclassname"><span class="pre">xpartial.</span></span><span class="sig-name descname"><span class="pre">xpartialmethod</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">NoReturn</span></span></span><a class="headerlink" href="#xpartial.xpartialmethod" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a new method with partially frozen arguments.</p>
+<p>An eXtra eXtended partial function with syntactic sugar for convenience when writing simple partials.
+<cite>Skip</cite> and <cite>SkipRest</cite> can be optionally replaced with <cite>…</cite> and <cite>{…}</cite>, respectively.
+Not recommended for dynamically created partial functions that accept <cite>Ellipsis</cite> or <cite>set(Ellipsis)</cite> arguments.</p>
 </dd></dl>
 
 <div class="toctree-wrapper compound">

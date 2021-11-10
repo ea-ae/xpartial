@@ -15,7 +15,6 @@ mypy = "*"
 pytest = "*"
 sphinx = "*"
 sphinx-autodoc-typehints = "*"
-myst-parser = "*"
 
 [requires]
 python_version = "3.10"

@@ -12,7 +12,7 @@
 #
 import os
 import sys
-sys.path.insert(0, os.path.abspath('../../xpartial'))
+sys.path.insert(0, os.path.abspath('../xpartial'))
 
 
 # -- Project information -----------------------------------------------------
@@ -28,7 +28,8 @@ author = 'ea-ae'
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
 extensions = [
-    'myst_parser',
+    # 'myst_parser',
+    # 'sphinx.ext.autosummary',
     'sphinx.ext.autodoc',
     'sphinx.ext.coverage',
     'sphinx.ext.githubpages',

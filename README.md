@@ -34,32 +34,10 @@ h()  # -> 3, 5, 15  (default values are applied)
 h(Skip, 42, 1337)  # -> 3, 42, 1337, 15 (Skips here use default values)
 ```
 
-## Implementation Details
+## Docs
 
-Read the docs for additional information.
-
-### xpartial(func, *args, **kwargs)
-
-An e**X**tended partial utility function that allows you to selectively freeze any parameters with specified values, creating a partial function. Frozen arguments in partial functions can be overwritten through keyword arguments.
-
-Function `xpartialmethod` behaves just like `xpartial`, but is instead used for method definitions.
-
-### Skip
-
-When used as argument for `xpartial`, this constant skips over a single positional argument of the target function, requiring said argument to be later provided to the partial function.
-
-When used as an argument for a partial function created by `xpartial`, the argument is set to its default value (if there isn't one, an error is thrown).
-
-### SkipRest
-
-When used as an argument for `xpartial`, skips as many arguments as possible, freezing the **n** arguments that come after it in the functional as the last **n** arguments. If the function contains an `*args`, all the remaining positional arguments are skipped.
-
-Unlike `Skip`, `SkipRest` cannot be used in partial function calls. Only a single `SkipRest` may be provided to an `xpartial`.
-
-### xxpartial(func, *args, **kwargs)
-
-An e**X**tra e**X**tended partial function with syntactic sugar for convenience when writing simple partials. `Skip` and `SkipRest` can be optionally replaced with `...` and `{...}`, respectively. Not recommended for dynamically created partial functions that accept `Ellipsis` or `set(Ellipsis)` arguments.
+You may [read the documentation here](https://ea-ae.github.io/xpartial/).
 
 ## License
 
-Licensed under [The Unlicense](LICENSE).
+This project is licensed under [The Unlicense](LICENSE). Started in 2021.
