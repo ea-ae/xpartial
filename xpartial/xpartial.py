@@ -125,7 +125,7 @@ class SkipRest(_Constant):
     """Skip as many positional arguments as possible, allowing one to freeze arguments at the end of the function.
 
     When used as an argument for `xpartial`, skips as many arguments as possible, leaving the remaining frozen
-    arguments and Skips to the end of the argument list. Only the first `SkipRest` provided `xpartial` has an effect,
+    arguments and Skips to the end of the argument list. Only the first `SkipRest` provided to `xpartial` has an effect,
     the rest are ignored entirely. Unlike `Skip`, `SkipRest` can't be used in partial function calls.
     """
 
