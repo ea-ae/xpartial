@@ -67,23 +67,24 @@ def xpartial(func: Callable[..., R], /, *args: Any, **kwargs: Any) -> Callable[.
 
             :return: Yield processed argument.
             """
-            iarg_it = iter(iargs)
-            remaining = len(args)
-            for arg in args:
-                remaining -= 1
+            # iarg_it = iter(iargs)
+            iarg_i = 0
+            for i, arg in enumerate(args):
                 if arg in ikwargs:
                     yield ikwargs.pop(arg)  # allow overwriting of frozen args if they're present in the kwargs
                 elif arg is Skip:
                     try:
-                        yield next(iarg_it)
-                    except StopIteration:
+                        # yield next(iarg_it)
+                        yield iargs[iarg_i]
+                        i += 1
+                    except IndexError:
                         return  # if the remaining args are all Skips then we're fine, if not, TypeError will be raised
                 elif arg is SkipRest:
                     pass
                 else:
                     yield arg
-            for iarg in iarg_it:  # yield the remaining positional arguments after Skips
-                yield iarg
+            for i in range(iarg_i, len(iargs)):  # yield the remaining positional arguments after Skips
+                yield iargs[i]
 
         ikwargs |= kwargs
         return func(*process_args(), **ikwargs)
@@ -91,8 +92,13 @@ def xpartial(func: Callable[..., R], /, *args: Any, **kwargs: Any) -> Callable[.
     return partial_func
 
 
-def xpartialmethod():
-    """Implement this later."""
+def xpartialmethod() -> NoReturn:
+    """Return a new method with partially frozen arguments.
+
+    An eXtra eXtended partial function with syntactic sugar for convenience when writing simple partials.
+    `Skip` and `SkipRest` can be optionally replaced with `...` and `{...}`, respectively.
+    Not recommended for dynamically created partial functions that accept `Ellipsis` or `set(Ellipsis)` arguments.
+    """
     raise NotImplementedError()
 
 
