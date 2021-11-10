@@ -10,7 +10,7 @@
     <title>XPartial Docs &#8212; xpartial  documentation</title>
     <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="_static/bizstyle.css" />
-
+    
     <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
     <script src="_static/jquery.js"></script>
     <script src="_static/underscore.js"></script>
@@ -33,15 +33,15 @@
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="nav-item nav-item-0"><a href="#">xpartial  documentation</a> &#187;</li>
-        <li class="nav-item nav-item-this"><a href="">XPartial Docs</a></li>
+        <li class="nav-item nav-item-this"><a href="">XPartial Docs</a></li> 
       </ul>
-    </div>
+    </div>  
 
     <div class="document">
       <div class="documentwrapper">
         <div class="bodywrapper">
           <div class="body" role="main">
-
+            
   <section id="module-xpartial">
 <span id="xpartial-docs"></span><h1>XPartial Docs<a class="headerlink" href="#module-xpartial" title="Permalink to this headline">¶</a></h1>
 <p>Library that eXtends functools.partial to allow for selective argument freezing.</p>
@@ -51,20 +51,15 @@ and make use of default values in middle of your function calls.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">xpartial</span> <span class="kn">import</span> <span class="n">xpartial</span><span class="p">,</span> <span class="n">Skip</span><span class="p">,</span> <span class="n">SkipRest</span>
 
 <span class="c1"># Same as: xpartial(range, stop=5)</span>
-<span class="n">f</span> <span class="o">=</span> <span class="n">xpartial</span><span class="p">(</span><span class="nb">range</span><span class="p">,</span> <span class="n">Skip</span><span class="p">,</span> <span class="mi">6</span><span class="p">)</span>  <span class="c1"># &#39;Skip&#39; skips a single positional arg</span>
-<span class="n">f</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>  <span class="c1"># -&gt; 2, 3, 4, 5</span>
-<span class="n">f</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>  <span class="c1"># -&gt; 1, 3, 5</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">f</span> <span class="o">=</span> <span class="n">xpartial</span><span class="p">(</span><span class="nb">range</span><span class="p">,</span> <span class="n">Skip</span><span class="p">,</span> <span class="mi">6</span><span class="p">)</span>  <span class="c1"># `Skip` skips a single positional arg</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">f</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>  <span class="c1"># -&gt; 2, 3, 4, 5</span>
+<span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">6</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">f</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>  <span class="c1"># -&gt; 1, 3, 5</span>
+<span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
 
-<span class="n">foo</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">d</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">e</span><span class="o">=</span><span class="mi">0</span><span class="p">:</span> <span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">e</span><span class="p">)</span>  <span class="c1"># takes+returns 5 args</span>
-<span class="n">g</span> <span class="o">=</span> <span class="n">xpartial</span><span class="p">(</span><span class="n">foo</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="n">SkipRest</span><span class="p">,</span> <span class="mi">40</span><span class="p">,</span> <span class="mi">50</span><span class="p">)</span>  <span class="c1"># &#39;SkipRest&#39; greedily skips args</span>
-<span class="n">g</span><span class="p">(</span><span class="mi">20</span><span class="p">,</span> <span class="mi">30</span><span class="p">)</span>  <span class="c1"># -&gt; 10, 20, 30, 40, 50</span>
-<span class="n">g</span><span class="p">(</span><span class="mi">20</span><span class="p">)</span>  <span class="c1"># -&gt; 10, 20, 0, 40, 50</span>
-
-<span class="n">bar</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">a</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">b</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">:</span> <span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">)</span>
-<span class="n">h</span> <span class="o">=</span> <span class="n">xxpartial</span><span class="p">({</span><span class="o">...</span><span class="p">},</span> <span class="mi">15</span><span class="p">)</span>  <span class="c1"># alternative syntax: ...=Skip, {...}=SkipRest</span>
-<span class="n">h</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>  <span class="c1"># -&gt; 1, 2, 3, 15  (frozen args are in the very end)</span>
-<span class="n">h</span><span class="p">()</span>  <span class="c1"># -&gt; 3, 5, 15  (default values are applied)</span>
-<span class="n">h</span><span class="p">(</span><span class="n">Skip</span><span class="p">,</span> <span class="mi">42</span><span class="p">,</span> <span class="mi">1337</span><span class="p">)</span>  <span class="c1"># -&gt; 3, 42, 1337, 15 (Skips here use default values)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">g</span> <span class="o">=</span> <span class="n">xpartial</span><span class="p">(</span><span class="nb">range</span><span class="p">,</span> <span class="n">SkipRest</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>  <span class="c1"># `2` is the last positional arg</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">g</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">6</span><span class="p">)</span>  <span class="c1"># -&gt; 1, 3, 5</span>
+<span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
 </pre></div>
 </div>
 <dl class="py function">
@@ -89,9 +84,9 @@ Function <cite>xpartialmethod</cite> behaves just like <cite>xpartial</cite>, bu
 </dd></dl>
 
 <dl class="py function">
-<dt class="sig sig-object py" id="xpartial.xpartialmethod">
-<span class="sig-prename descclassname"><span class="pre">xpartial.</span></span><span class="sig-name descname"><span class="pre">xpartialmethod</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">NoReturn</span></span></span><a class="headerlink" href="#xpartial.xpartialmethod" title="Permalink to this definition">¶</a></dt>
-<dd><p>Return a new method with partially frozen arguments.</p>
+<dt class="sig sig-object py" id="xpartial.xxpartial">
+<span class="sig-prename descclassname"><span class="pre">xpartial.</span></span><span class="sig-name descname"><span class="pre">xxpartial</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">NoReturn</span></span></span><a class="headerlink" href="#xpartial.xxpartial" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a new function with partially frozen arguments.</p>
 <p>An eXtra eXtended partial function with syntactic sugar for convenience when writing simple partials.
 <cite>Skip</cite> and <cite>SkipRest</cite> can be optionally replaced with <cite>…</cite> and <cite>{…}</cite>, respectively.
 Not recommended for dynamically created partial functions that accept <cite>Ellipsis</cite> or <cite>set(Ellipsis)</cite> arguments.</p>
@@ -99,7 +94,7 @@ Not recommended for dynamically created partial functions that accept <cite>Elli
 
 <dl class="py class">
 <dt class="sig sig-object py" id="xpartial.Skip">
-<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">xpartial.</span></span><span class="sig-name descname"><span class="pre">Skip</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Any</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#xpartial.Skip" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">xpartial.</span></span><span class="sig-name descname"><span class="pre">Skip</span></span><a class="headerlink" href="#xpartial.Skip" title="Permalink to this definition">¶</a></dt>
 <dd><p>Skip a single positional argument.</p>
 <p>When used as argument for <cite>xpartial</cite>, this constant skips over a single positional argument of the target function,
 requiring said argument to be later provided to the partial function.
@@ -109,11 +104,28 @@ When used as an argument for a partial function created by <cite>xpartial</cite>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="xpartial.SkipRest">
-<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">xpartial.</span></span><span class="sig-name descname"><span class="pre">SkipRest</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Any</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#xpartial.SkipRest" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">xpartial.</span></span><span class="sig-name descname"><span class="pre">SkipRest</span></span><a class="headerlink" href="#xpartial.SkipRest" title="Permalink to this definition">¶</a></dt>
 <dd><p>Skip as many positional arguments as possible, allowing one to freeze arguments at the end of the function.</p>
 <p>When used as an argument for <cite>xpartial</cite>, skips as many arguments as possible, leaving the remaining frozen
-arguments and Skips to the end of the argument list. Only the first <cite>SkipRest</cite> provided <cite>xpartial</cite> has an effect,
-the rest are ignored entirely. Unlike <cite>Skip</cite>, <cite>SkipRest</cite> can’t be used in partial function calls.</p>
+arguments and Skips to the end of the argument list. In case the positional argument list ends with <cite>*args</cite>,
+the rest of the frozen arguments go in the end of it.</p>
+<p>Only the first <cite>SkipRest</cite> provided to <cite>xpartial</cite> has an effect, the rest are ignored entirely.
+Unlike <cite>Skip</cite>, <cite>SkipRest</cite> can’t be used in partial function calls.</p>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">foo</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">d</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">e</span><span class="o">=</span><span class="mi">0</span><span class="p">:</span> <span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">e</span><span class="p">)</span>  <span class="c1"># takes+returns 5 args</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">f</span> <span class="o">=</span> <span class="n">xpartial</span><span class="p">(</span><span class="n">foo</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="n">SkipRest</span><span class="p">,</span> <span class="mi">40</span><span class="p">,</span> <span class="mi">50</span><span class="p">)</span>  <span class="c1"># `SkipRest` skips greedily</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">f</span><span class="p">(</span><span class="mi">20</span><span class="p">,</span> <span class="mi">30</span><span class="p">)</span>
+<span class="go">(10, 20, 30, 40, 50)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">f</span><span class="p">(</span><span class="mi">20</span><span class="p">)</span>
+<span class="go">(10, 20, 0, 40, 50)</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">bar</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">:</span> <span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">args</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">g</span> <span class="o">=</span> <span class="n">xpartial</span><span class="p">(</span><span class="n">bar</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="n">SkipRest</span><span class="p">,</span> <span class="mi">40</span><span class="p">,</span> <span class="mi">50</span><span class="p">)</span>  <span class="c1"># `SkipRest` makes use of default vals and `*args`</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">g</span><span class="p">(</span><span class="mi">20</span><span class="p">)</span>  <span class="c1"># `50` is in `*args`, not `c`</span>
+<span class="go">(10, 20, 0, 40, 50)</span>
+</pre></div>
+</div>
 </dd></dl>
 
 <div class="toctree-wrapper compound">
@@ -172,7 +184,7 @@ the rest are ignored entirely. Unlike <cite>Skip</cite>, <cite>SkipRest</cite> c
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="nav-item nav-item-0"><a href="#">xpartial  documentation</a> &#187;</li>
-        <li class="nav-item nav-item-this"><a href="">XPartial Docs</a></li>
+        <li class="nav-item nav-item-this"><a href="">XPartial Docs</a></li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
